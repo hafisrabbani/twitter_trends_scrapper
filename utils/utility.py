@@ -1,17 +1,14 @@
 from validator import validate
 import json
-import time
 def validate_data(schema, data):
     return validate(schema, data)
 
-def write_to_file(data):
+def write_to_file(data, filename):
     try:
-        filename = f"temp/trends_{int(time.time())}.json"
+        filename = f"{filename}.json"
         with open(filename, "w") as file:
-            json.dump(data, file)
-
-        print(f"Data has been written to {filename}")
-        return filename
+            json.dump(data, file, indent=4)
+        return f"Data written to {filename} successfully. \n"
     except Exception as e:
         return f"Error: {e}"
 

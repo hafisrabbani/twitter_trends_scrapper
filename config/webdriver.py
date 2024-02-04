@@ -20,20 +20,9 @@ class WebDriver:
             self.driver = None
 
     def _create_driver(self):
-        options = webdriver.FirefoxOptions()
-        # options.add_argument('--headless')
-
-        # Membuat instance WebDriver dengan opsi yang sudah dikonfigurasi
-        driver = webdriver.Firefox(options=options)
-
-        # twitter_auth_token = os.getenv('TWITTER_AUTH_TOKEN')
-        # print("Twitter Auth Token:", twitter_auth_token)
-        #
-        # driver.add_cookie({
-        #     'name': 'auth_token',
-        #     'value': twitter_auth_token,
-        #     'domain': 'twitter.com'
-        # })
-
+        options = webdriver.ChromeOptions()
+        options.add_argument('--headless')
+        options.add_argument('--no-sandbox')
+        driver = webdriver.Chrome(options=options)
 
         return driver
