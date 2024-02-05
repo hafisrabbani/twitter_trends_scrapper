@@ -16,7 +16,6 @@ def main():
     '''
     print(text)
     print("Version: 1.0.0")
-    print("Author: @Hafisrbbni")
     print("Description: This is a simple script to scrape Twitter trends and save to a file.")
     print("=========================================================================================")
     start_time = time.time()
