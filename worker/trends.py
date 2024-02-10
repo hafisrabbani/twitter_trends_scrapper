@@ -1,7 +1,8 @@
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
-from config.webdriver import WebDriver
-from utils.utility import write_to_file, remove_char, get_first_element_separator
+from configs.webdriver import WebDriver
+from utils.utility import write_to_file, remove_char, get_first_element_separator, format_number
+from models.trends import TwitterTrends
 import time
 class TwitterTrendsScraper:
     TWITTER_PATH_TRENDS = "https://twitter.com/i/trends"
@@ -29,7 +30,7 @@ class TwitterTrendsScraper:
         self.driver.get(self.TWITTER_PATH_TRENDS)
         print("opening trends page.......")
         self.driver.refresh()
-        self.driver.implicitly_wait(10)
+        self.driver.implicitly_wait(15)
         trend_data = self.driver.find_elements(By.CSS_SELECTOR, ".css-175oi2r.r-1adg3ll.r-1ny4l3l")[1:]
         print("Getting data started.......")
         for trend in trend_data:
@@ -46,7 +47,7 @@ class TwitterTrendsScraper:
             try:
                 post_count_element = trend.find_element(By.CSS_SELECTOR,
                                                         ".css-1rynq56.r-bcqeeo.r-qvutc0.r-37j5jr.r-n6v787.r-1cwl3u0.r-16dba41.r-14gqq1x")
-                trend_info['post_count'] = remove_char(post_count_element.text, "posts")
+                trend_info['post_count'] = format_number(remove_char(post_count_element.text, " posts"))
             except NoSuchElementException:
                 trend_info['post_count'] = None
             trend_info['scrapped_date'] = time.strftime("%Y-%m-%d")
@@ -64,3 +65,7 @@ class TwitterTrendsScraper:
             print(f"Success getting {total_trends} trends")
         except Exception as e:
             return f"Error: {e}"
+
+    def __del__(self):
+        print("Destroying TwitterTrendsScraper.......")
+        WebDriver().close_driver()

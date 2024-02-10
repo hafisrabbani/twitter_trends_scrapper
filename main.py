@@ -2,6 +2,7 @@ from worker.trends import TwitterTrendsScraper
 import os
 import time
 from dotenv import load_dotenv
+from utils.utility import store_db_from_file
 load_dotenv(".env")
 
 
@@ -28,10 +29,14 @@ def main():
 def runner_trends():
     trends_worker = TwitterTrendsScraper()
     AUTH_TOKEN = os.getenv("TWITTER_AUTH_TOKEN")
-    PATH_TO_SAVE = "temp/trends"+str(int(time.time()))+".json"
+    PATH_TO_SAVE = "temp/trends_"+str(int(time.time()))
     trends_worker.scrape_and_save_trends(AUTH_TOKEN, PATH_TO_SAVE)
-    print(f"Data written to {PATH_TO_SAVE} successfully.")
 
+    print(f"Data written to {PATH_TO_SAVE} successfully.")
+    print("=========================================================================================")
+    print("Now saving to database.......")
+    store_db_from_file(PATH_TO_SAVE+".json")
+    print("=========================================================================================")
 if __name__ == "__main__":
     main()
 
