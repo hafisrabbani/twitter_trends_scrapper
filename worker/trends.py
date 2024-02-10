@@ -50,7 +50,7 @@ class TwitterTrendsScraper:
                 trend_info['post_count'] = format_number(remove_char(post_count_element.text, " posts"))
             except NoSuchElementException:
                 trend_info['post_count'] = None
-            trend_info['scrapped_date'] = time.strftime("%Y-%m-%d")
+            trend_info['scrapped_date'] = time.strftime("%Y-%m-%d %H:%M:%S")
             trends_list.append(trend_info)
         return trends_list
 
